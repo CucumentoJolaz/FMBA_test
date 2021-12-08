@@ -4,7 +4,7 @@ if platform.system() =="Windows":
     labels_dir = 'c:\\tmp\\labels'
 else:
     labels_dir = "/tmp/labels"
-    
+
 metafile_ext = "json"
 
 class meta_class_configure():
@@ -12,9 +12,9 @@ class meta_class_configure():
     def __init__(self, init_folders_files: list):
         self.folders_files_dict = init_folders_files
 
-        
+
     def meta_name_create(self, filename: str) -> str:
-        """Создание имени метаинформации для файла у которого есть метаинформация"""
+        """Создание имени метаинформации для файла"""
         return ".".join([filename.split(".")[0], metafile_ext])
 
     def meta_exists(self, filename: str, filelist: str) -> bool:
@@ -25,10 +25,10 @@ class meta_class_configure():
             return True
 
     def meta_pair(self, filename:str) -> list:
-        """Проверка есть ли у файла метаинформация"""
+        """Возврат листа пары ["имя файла","его мета"]"""
         meta_name = self.meta_name_create(filename)
         return [filename, meta_name]
-        
+
 
     def meta_dict(self, only_folders_names = True) -> dict:
         """Генерация словаря "папка": ["имя файла","его мета"]. если флаг onle_folders_names==False то в качестве ключа указывается полный путь к папке"""
@@ -47,10 +47,10 @@ class meta_class_configure():
                     if self.meta_exists(file, files):
                         meta_dict_out[folder].append(self.meta_pair(file))
 
-                    
+
         #Новый словарь без пустых полей
         metadata_no_empty = {key: value for key, value in meta_dict_out.items() if value}
-        
+
         return metadata_no_empty
 
 
@@ -61,7 +61,7 @@ def get_file_structure(folders_to_check: list) -> dict:
         labels[label] = []
         for name in os.listdir(label):
             labels[label].append(name)
-    
+
     return labels
 
 if __name__ == "__main__":
@@ -76,4 +76,3 @@ if __name__ == "__main__":
 
     for key, value in meta_pairs_dict.items():
         print(key, value)
-
