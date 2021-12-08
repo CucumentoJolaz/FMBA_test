@@ -21,7 +21,7 @@ class meta_class_configure():
         """Проверка существования мета информации у файла"""
         lower_filearr = [file.lower() for file in filelist]
         meta_name = self.meta_name_create(filename)
-        if meta_name.lower() in lower_filearr and not filename.endswith(f".{metafile_ext}"):
+        if meta_name.lower() in lower_filearr and not filename.lower().endswith(f".{metafile_ext}"):
             return True
 
     def meta_pair(self, filename:str) -> list:
