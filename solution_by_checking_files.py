@@ -29,6 +29,13 @@ class meta_class_configure():
         meta_name = self.meta_name_create(filename)
         return [filename, meta_name]
 
+    def meta_get(self, filename:str, filelist: str) -> list:
+        """Возврат имени существующего метафайла"""
+        meta_name_lowercase = self.meta_name_create(filename)
+        for file in filelist:
+            if meta_name_lowercase == file.lower():
+                return file
+
 
     def meta_dict(self) -> dict:
         """Генерация словаря "папка": [["имя файла","его мета"]...]."""
@@ -39,7 +46,11 @@ class meta_class_configure():
             for file in files:
                 if self.meta_exists(file, files):
                     if file:
-                        meta_dict_out[key].append(self.meta_pair(os.path.join(folder, file)))
+                        meta_dict_out[key].append(
+                        [
+                        os.path.join(folder, file),
+                        os.path.join(folder, self.meta_get(file, files))
+                        ])
 
         #Новый словарь без пустых полей
         metadata_no_empty = {key: value for key, value in meta_dict_out.items() if value}
