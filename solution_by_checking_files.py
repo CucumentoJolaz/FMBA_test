@@ -24,10 +24,6 @@ class meta_class_configure():
         if meta_name.lower() in lower_filearr and not filename.lower().endswith(f".{metafile_ext}"):
             return True
 
-    def meta_pair(self, filename:str) -> list:
-        """Возврат листа пары ["имя файла","его мета"]"""
-        meta_name = self.meta_name_create(filename)
-        return [filename, meta_name]
 
     def meta_get(self, filename:str, filelist: str) -> list:
         """Возврат имени существующего метафайла"""
