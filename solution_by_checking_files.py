@@ -30,23 +30,16 @@ class meta_class_configure():
         return [filename, meta_name]
 
 
-    def meta_dict(self, only_folders_names = True) -> dict:
-        """Генерация словаря "папка": ["имя файла","его мета"]. если флаг onle_folders_names==False то в качестве ключа указывается полный путь к папке"""
+    def meta_dict(self) -> dict:
+        """Генерация словаря "папка": [["имя файла","его мета"]...]."""
         meta_dict_out = {}
-        if only_folders_names:
-            for folder, files in self.folders_files_dict.items():
-                key = folder.split(os.sep)[-1]
-                meta_dict_out[key] = []
-                for file in files:
-                    if self.meta_exists(file, files):
-                        meta_dict_out[key].append(self.meta_pair(file))
-        else:
-            for folder, files in self.folders_files_dict.items():
-                meta_dict_out[folder] = []
-                for file in files:
-                    if self.meta_exists(file, files):
-                        meta_dict_out[folder].append(self.meta_pair(file))
-
+        for folder, files in self.folders_files_dict.items():
+            key = folder.split(os.sep)[-1]
+            meta_dict_out[key] = []
+            for file in files:
+                if self.meta_exists(file, files):
+                    if file:
+                        meta_dict_out[key].append(self.meta_pair(os.path.join(folder, file)))
 
         #Новый словарь без пустых полей
         metadata_no_empty = {key: value for key, value in meta_dict_out.items() if value}
